@@ -10,7 +10,6 @@ export default function Form(props) {
     setName("");
     setInterviewer(null);
   };
-  console.log("INTERVIEWER:", interviewer);
   const cancel = () => reset(props.onCancel());
   return (
     <main className="appointment__card appointment__card--create">
@@ -25,7 +24,6 @@ export default function Form(props) {
             placeholder="Enter Student Name"
           />
         </form>
-        {console.log("INTERVIEWER:", interviewer)}
         <InterviewerList
           interviewers={props.interviewers}
           value={interviewer}

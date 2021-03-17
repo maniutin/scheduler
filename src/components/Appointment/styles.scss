@@ -170,3 +170,8 @@ $appointment-height: 11rem;
     margin-bottom: 1rem;
   }
 }
+#last:last-of-type {
+  .appointment__add {
+    display: none;
+  }
+}
