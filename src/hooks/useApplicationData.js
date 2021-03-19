@@ -38,6 +38,13 @@ export default function () {
       [id]: appointment,
     };
 
+    if (appointment.id) {
+      const selectedDay = state.days.find((day) =>
+        day.appointments.includes(appointment.id)
+      );
+      selectedDay.spots -= 1;
+    }
+
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       setState({
         ...state,
@@ -56,6 +63,13 @@ export default function () {
       ...state.appointments,
       [id]: appointment,
     };
+
+    if (appointment.id) {
+      const selectedDay = state.days.find((day) =>
+        day.appointments.includes(appointment.id)
+      );
+      selectedDay.spots += 1;
+    }
 
     return axios.delete(`/api/appointments/${id}`).then(() => {
       setState({
