@@ -10,6 +10,8 @@ import Show from "components/Appointment/Show";
 
 import useVisualMode from "hooks/useVisualMode";
 
+const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_SAVE = "ERROR_SAVE";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
 const SAVING = "SAVING";
@@ -29,7 +31,10 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview).then(() => transition(SHOW));
+    props
+      .bookInterview(props.id, interview)
+      .then(() => transition(SHOW))
+      .catch(() => transition(ERROR_SAVE));
   }
 
   function del() {
@@ -37,8 +42,9 @@ export default function Appointment(props) {
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch((err) => console.log(err));
+      .catch(() => transition(ERROR_DELETE));
   }
+
   return (
     <>
       <Header time={props.time} />{" "}
