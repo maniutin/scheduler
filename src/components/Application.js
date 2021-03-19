@@ -44,7 +44,6 @@ export default function Application(props) {
   }
 
   function cancelInterview(id) {
-    console.log("CANCEL INTER: ", id);
     const appointment = {
       ...state.appointments[id],
       interview: null,
