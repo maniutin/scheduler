@@ -24,11 +24,10 @@ export function getInterviewersForDay(state, day) {
   if (!dayObj) {
     return [];
   } else {
-    for (const appointmentId of dayObj.appointments) {
-      const interview = state.appointments[appointmentId].interview;
-      if (interview) {
-        const interviewerId = interview.interviewer;
-        interviewersArr.push(state.interviewers[interviewerId]);
+    for (const interviewerId of dayObj.interviewers) {
+      const interviewer = state.interviewers[interviewerId];
+      if (interviewer) {
+        interviewersArr.push(interviewer);
       }
     }
   }

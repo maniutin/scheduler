@@ -16,10 +16,50 @@ export default function Application(props) {
     days: [],
     appointments: {},
   });
+
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const dailyInterviewers = getInterviewersForDay(state, state.day);
 
   const setDay = (day) => setState({ ...state, day });
+
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      setState({
+        ...state,
+        appointments,
+      });
+    });
+  }
+
+  function cancelInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      setState({
+        ...state,
+        appointments,
+      });
+    });
+  }
 
   useEffect(() => {
     Promise.all([
@@ -33,12 +73,12 @@ export default function Application(props) {
         appointments: all[1].data,
         interviewers: all[2].data,
       }));
-      const [days, appointments, interviewers] = all;
     });
   }, []);
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
+
     return (
       <Appointment
         key={appointment.id}
@@ -46,9 +86,12 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -69,6 +112,7 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {schedule}
+
         <Appointment key="last" time="5pm" />
       </section>
     </main>
