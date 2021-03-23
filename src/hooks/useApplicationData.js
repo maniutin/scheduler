@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+const setSpots = function (state) {
+  const days = state.days.map((day) => ({
+    ...day,
+    spots:
+      day.appointments.length -
+      day.appointments.filter((a) => state.appointments[a].interview).length,
+  }));
+
+  return { ...state, days };
+};
+
 export default function () {
   const [state, setState] = useState({
     day: "Monday",
@@ -36,18 +47,12 @@ export default function () {
       [id]: appointment,
     };
 
-    if (appointment.id) {
-      const selectedDay = state.days.find((day) =>
-        day.appointments.includes(appointment.id)
-      );
-      selectedDay.spots -= 1;
-    }
-
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
       setState({
         ...state,
         appointments,
       });
+      setState(setSpots);
     });
   }
 
@@ -62,18 +67,12 @@ export default function () {
       [id]: appointment,
     };
 
-    if (appointment.id) {
-      const selectedDay = state.days.find((day) =>
-        day.appointments.includes(appointment.id)
-      );
-      selectedDay.spots += 1;
-    }
-
     return axios.delete(`/api/appointments/${id}`).then(() => {
       setState({
         ...state,
         appointments,
       });
+      setState(setSpots);
     });
   }
 
