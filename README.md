@@ -26,6 +26,11 @@ npm run storybook
 
 ## Screenshots
 
+Book Interview Form
 !["Book Interview Form"](https://github.com/maniutin/scheduler/blob/master/docs/book-interview-form.png?raw=true)
+
+Cancel Interview Dialog
 !["Cancel Interview Dialog"](https://github.com/maniutin/scheduler/blob/master/docs/cancel-intervie-dialog.png?raw=true)
+
+Cancel Interview Error
 !["Cancel Interview Error"](https://github.com/maniutin/scheduler/blob/master/docs/delete-error.png?raw=true)
